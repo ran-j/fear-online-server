@@ -78,6 +78,7 @@ func main() {
 		log.Fatalf("invalid LOGIN_SERVER_PORT %q: %v", config.LoginServerPort, err)
 	}
 	gameServer := proudnet.NewServer(logger, keyPair, config.LoginServerIP, uint16(loginPort))
+	//TODO : add more channels and make them configurable
 	channels := []proudnet.Channel{{
 		ServerID: 1001,
 		ID:       1,
@@ -97,7 +98,6 @@ func main() {
 	proudnet.NewFriends(friendService, clanService, logger).Register(gameServer)
 	proudnet.NewChat(playerService, clanService, logger).Register(gameServer)
 	proudnet.NewGameActionHandle(gameServer)
-
 
 	if err := gameServer.Listen(":" + config.LoginServerPort); err != nil {
 		log.Fatalf("proudnet listen on :%s failed: %v", config.LoginServerPort, err)
