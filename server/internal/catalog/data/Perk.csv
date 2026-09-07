@@ -1,0 +1,15 @@
+PerkIndex,AbleToMode,timeKeep,ReleaseType,ReleaseValue,condition,cValue,effect1,effect2,eOperator1,eOperator2,eValue1,eValue2,SubName,Description,Comment,Summary,HideConditionValue,HudOverlayFXName
+81400101,111111,0,0,0,0,0,11,0,2,0,-1,0,I_Perk_LightFeather_S,I_D_Light_Feather,I_Perk_LightFeather_C,PerkS_Light_Feather,0,CYOV_Psy_B
+81400501,111100,0,0,0,0,0,21,0,0,0,0,0,I_Perk_Tightwad_S,I_D_Tightwad,I_Perk_Tightwad_C,PerkS_Tightwad,0,CYOV_Psy_Y
+81400801,1111110,15,0,0,101,3,31,0,0,0,0,0,I_Perk_BatsAuditory_S,I_D_BatsAuditoryS,I_Perk_BatsAuditory_C,PerkS_Bats_Auditory,0,CYOV_Psy_R
+81400901,1111100,0,207,1,102,3,41,42,2,2,0.2,0.2,I_Perk_Tanker_S,I_D_Tanker,I_Perk_Tanker_C,PerkS_Tanker,0,CYOV_Psy_G
+81401001,1111110,60,202,1,102,2,51,0,0,0,0,0,I_Perk_MultipleBloodClots_S,I_D_MultipleBloodClots,I_Perk_MultipleBloodClots_C,PerkS_Multiple_Blood_Clots,0,CYOV_Psy_R
+81401101,1111100,0,0,0,0,0,61,62,2,1,0.4,1,I_Perk_MasterOfRaids_S,I_D_MasterOfRaids,I_Perk_MasterOfRaids_C,PerkS_Master_Of_Raids,0,CYOV_Psy_R
+81401801,10000,0,0,0,0,0,71,0,2,0,-0.2,0,I_Perk_Repairman_S,I_D_Repairman,I_Perk_Repairman_C,PerkS_Repairman,0,CYOV_Psy_W
+81402101,100000,0,206,1,204,1,81,0,2,0,0.3,0,I_Perk_Endurance_S,I_D_Endurance,I_Perk_Endurance_C,PerkS_Endurance,1,CYOV_Psy_W
+81402501,111100,0,0,0,0,0,121,0,2,0,0.3,0,I_Perk_FastMoveInMainWep_S,I_D_FastMoveInMainWep,I_Perk_FastMoveInMainWep_C,PerkS_FastMoveInMainWep,0,CYOV_Psy_R
+81402601,1111101,0,0,0,0,0,131,132,0,1,0,15,I_Perk_AutoHealing_S,I_D_AutoHealing,I_Perk_AutoHealing_C,PerkS_AutoHealing,0,CYOV_Psy_B
+81402701,111101,0,0,0,0,0,141,142,0,2,0,-0.5,I_Perk_CannotBombSuicide_S,I_D_CannotBombSuicide,I_Perk_CannotBombSuicide_C,PerkS_CannotBombSuicide,0,CYOV_Psy_G
+81402901,1111010,30,208,1,105,2,151,52,0,0,0,0,I_Perk_Curse_S,I_D_Curse,I_Perk_Curse_C,PerkS_Curse,0,CYOV_Psy_R
+81403001,111111,0,0,0,0,0,161,0,2,0,0.5,0,I_Perk_MeleeMaster_S,I_D_MeleeMaster,I_Perk_MeleeMaster_C,PerkS_MeleeMaster,0,CYOV_Psy_B
+81403101,1111111,0,0,0,0,0,171,0,2,0,-1,0,I_Perk_Silent_S,I_D_Silent,I_Perk_Silent_C,PerkS_Silent,0,CYOV_Psy_B

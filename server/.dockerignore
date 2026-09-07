@@ -1,0 +1,15 @@
+# The build only needs the module files and the Go tree; everything below either
+# bloats the context or leaks host-specific settings into the image.
+.git
+.github
+.gitignore
+
+# Loaded by godotenv at startup. It points at localhost, which is not where
+# Mongo lives inside compose, so the container must take its values from the
+# environment instead.
+.env
+
+tmp
+*.log
+docs
+README.md

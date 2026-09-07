@@ -1,0 +1,4 @@
+F:/SteamLibrary/steamapps/common/FEAR Online/projeto-arrumado/dlls_stubs/build/CMakeFiles/ALL_BUILD.dir
+F:/SteamLibrary/steamapps/common/FEAR Online/projeto-arrumado/dlls_stubs/build/CMakeFiles/ZERO_CHECK.dir
+F:/SteamLibrary/steamapps/common/FEAR Online/projeto-arrumado/dlls_stubs/build/zlauncher_stub/CMakeFiles/zlauncher_stub.dir
+F:/SteamLibrary/steamapps/common/FEAR Online/projeto-arrumado/dlls_stubs/build/znetwork_stub/CMakeFiles/znetwork_stub.dir

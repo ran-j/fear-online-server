@@ -1,0 +1,8 @@
+services:
+  fear-service:
+    build:
+      target: development
+    volumes:
+      - ../:/app
+    environment:
+      APPLICATION_ENV: "DEVELOPMENT"

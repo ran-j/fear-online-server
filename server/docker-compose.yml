@@ -1,0 +1,42 @@
+services:
+  fear-service:
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile
+      target: release
+      args:
+        - SERVICE_PATH=fear-online-server
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+      - "30003:30003"
+    environment:
+      SERVICE_NAME: "FEAR Online Server"
+      APPLICATION_ENV: "PRODUCTION"
+      PORT: "8080"
+      LOGIN_SERVER_IP: "${LOGIN_SERVER_IP:-127.0.0.1}"
+      LOGIN_SERVER_PORT: "30003"
+      MONGODB_URI: "mongodb://mongo:27017"
+      MONGODB_DATABASE: "fear_online"
+      STARTING_POINT: "50000"
+      STARTING_CASH: "50000"
+    depends_on:
+      mongo:
+        condition: service_healthy
+
+  mongo:
+    image: mongo:7
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--quiet", "--eval", "db.adminCommand('ping')"]
+      interval: 5s
+      timeout: 5s
+      retries: 12
+      start_period: 10s
+
+volumes:
+  mongo-data:

@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="F:\SteamLibrary\steamapps\common\FEAR Online\projeto-arrumado\dlls_stubs\znetwork_stub\proxy.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="F:\SteamLibrary\steamapps\common\FEAR Online\projeto-arrumado\dlls_stubs\znetwork_stub\forwards.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="F:\SteamLibrary\steamapps\common\FEAR Online\projeto-arrumado\dlls_stubs\znetwork_stub\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{4E57A9AE-810B-385A-841E-EFEF71FCA8A7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{2E111248-EF09-3E22-A1DA-A2DC3DE796D1}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

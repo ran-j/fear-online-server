@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="F:\SteamLibrary\steamapps\common\FEAR Online\projeto-arrumado\dlls_stubs\build\CMakeFiles\d2e5df0e9bfa6912cde3b7dbec640904\generate.stamp.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{76E56236-0471-3F84-B5AB-7A1A3EAA78E9}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

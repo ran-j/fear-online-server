@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="F:\SteamLibrary\steamapps\common\FEAR Online\projeto-arrumado\dlls_stubs\zlauncher_stub\zlauncher_stub.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="F:\SteamLibrary\steamapps\common\FEAR Online\projeto-arrumado\dlls_stubs\zlauncher_stub\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="F:\SteamLibrary\steamapps\common\FEAR Online\projeto-arrumado\dlls_stubs\zlauncher_stub\ZLauncher.def">
+      <Filter>Source Files</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{2E111248-EF09-3E22-A1DA-A2DC3DE796D1}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

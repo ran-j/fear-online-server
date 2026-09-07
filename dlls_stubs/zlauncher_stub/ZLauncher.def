@@ -1,0 +1,13 @@
+LIBRARY ZLauncher.dll
+EXPORTS
+    DisConnect
+    GetLauncherData
+    LoginLauncher
+    Set_OnIoConnectedCallback
+    Set_OnIoDisonnectedCallback
+    Set_On_LOGIN_DATA_Callback
+    Set_On_LOGIN_FAIL_Callback
+    Set_On_BLOCK_IP_Callback
+    Tick
+    destoryed
+    init

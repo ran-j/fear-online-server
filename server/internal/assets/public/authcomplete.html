@@ -1,0 +1,22 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>{{.CallbackQuery}}</title>
+</head>
+<body>
+<script>
+window.name = "{{.CallbackQuery}}";
+document.title = "{{.CallbackQuery}}";
+setTimeout(function () {
+  try { window.close(); } catch (error) {}
+}, 750);
+</script>
+<form id="launcher_auth">
+<input type="hidden" name="state" value="{{.State}}">
+<input type="hidden" name="code" value="{{.Code}}">
+</form>
+<pre>{{.CallbackQuery}}</pre>
+</body>
+</html>

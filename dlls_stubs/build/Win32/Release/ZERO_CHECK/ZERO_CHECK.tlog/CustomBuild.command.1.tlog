@@ -1,0 +1,10 @@
+^F:\STEAMLIBRARY\STEAMAPPS\COMMON\FEAR ONLINE\PROJETO-ARRUMADO\DLLS_STUBS\BUILD\CMAKEFILES\D2E5DF0E9BFA6912CDE3B7DBEC640904\GENERATE.STAMP.RULE
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" "-SF:/SteamLibrary/steamapps/common/FEAR Online/projeto-arrumado/dlls_stubs" "-BF:/SteamLibrary/steamapps/common/FEAR Online/projeto-arrumado/dlls_stubs/build" --check-stamp-list CMakeFiles/generate.stamp.list --vs-solution-file "F:/SteamLibrary/steamapps/common/FEAR Online/projeto-arrumado/dlls_stubs/build/FearOnlineStubs.sln"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project>
+  <ProjectOutputs>
+    <ProjectOutput>
+      <FullPath>F:\SteamLibrary\steamapps\common\FEAR Online\projeto-arrumado\dlls_stubs\build\Release\ZERO_CHECK</FullPath>
+    </ProjectOutput>
+    <ProjectOutput>
+      <FullPath>F:\SteamLibrary\steamapps\common\FEAR Online\projeto-arrumado\dlls_stubs\build\dist\Release\ZLauncher.dll</FullPath>
+    </ProjectOutput>
+    <ProjectOutput>
+      <FullPath>F:\SteamLibrary\steamapps\common\FEAR Online\projeto-arrumado\dlls_stubs\build\dist\Release\ZNetwork.dll</FullPath>
+    </ProjectOutput>
+    <ProjectOutput>
+      <FullPath>F:\SteamLibrary\steamapps\common\FEAR Online\projeto-arrumado\dlls_stubs\build\Release\ALL_BUILD</FullPath>
+    </ProjectOutput>
+  </ProjectOutputs>
+  <ContentFiles />
+  <SatelliteDlls />
+  <NonRecipeFileRefs />
+</Project>
