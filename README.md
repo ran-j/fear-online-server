@@ -7,6 +7,8 @@ for the retail client to authenticate, enter the lobby, manage account
 data, create rooms, and play matches without the original online
 service.
 
+**Note**: for now we need `ZLauncher.dll` from dlls_stubs to bypass auth. (You can find it on release page)
+
 For implementation status, protocol findings, and known limitations, see
 [PROGRESS.md](PROGRESS.md).
 
@@ -15,6 +17,7 @@ For implementation status, protocol findings, and known limitations, see
 - Go 1.17 or newer
 - MongoDB
 - F.E.A.R Online on Steam
+- ZLauncher.dll stub
 
 ## Running the server
 
