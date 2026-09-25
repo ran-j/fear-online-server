@@ -111,10 +111,10 @@ Setup and client configuration belong in [README.md](README.md).
 | Round and game finish (`0x9092` -\> `0x9221` / `0x922B` / `0x922C`) | **Verified**    | Results screen is displayed                                                                  |
 | Session ping (`0x909C`) and hit count (`0x9028`)                    | **Verified**    | Both only require acknowledgement                                                            |
 | In-match equipment (`0x909D` / `0x9223` / `0x9224`)                 | **Verified**    | `0x909D` is a query; server returns the player’s equipment set                               |
-| In-match weapon change (`0x909A`)                                   | **Implemented** | Received, validated, and persisted, but does not affect respawn during the current match     |
+| In-match weapon change (`0x909A`) | **Implemented** | Preserves match context, persists loadout and broadcasts `0x925D`; awaiting live respawn verification. |
 | End-of-match scoreboard (`0x9221`)                                  | **Implemented** | Kill / death / assist data is sent. EXP and GP come from `0x9222`, which is not implemented  |
 | End-of-match reward (`0x9222`)                                      | **Missing**     | `Game::UserReward = [u8][u16][u16][u32]`; the item field has not been identified             |
-| In-game Tab scoreboard                                              | **Missing**     | Not reachable through this server; see Known limitations                                     |
+| In-game Tab scoreboard | Fixed missing team bytes in `0x921A NotifyInfo` (four u8 fields, previously only two). Team 0 was excluded by ActionScript. Regression tests pass; live verification pending. |
 
 ## Social
 
@@ -174,17 +174,24 @@ Eight of the 18 CSV catalogs are currently not referenced by code:
 
 ## Known limitations
 
+2026-09-24 correction: the older TAB / equipment findings below are superseded
+by `../Analisyz/ajuda/INMATCH_TEAM_AND_WEAPON_FIX.md`. NotifyInfo (0x921A) needs
+four bytes, including the local team; the server had sent only two. Weapon
+changes now preserve the match session and broadcast 0x925D. GameServer
+0x10163050 DOES read HostData+0x388 on respawn through getter 0x1023B680.
+Server regression tests pass; a new live match is still needed for validation.
+
 Most unresolved in-match behavior reaches the same architectural
 boundary: ProudNet owns account and room authority, while live match
 state belongs to the LithTech engine and listen host.
 
-### Not reachable from the server
+### In-match behavior and remaining client limits
 
 | Area                              | What is known                                                                                                                                                                                                                                                                                                                                                                                                 |
 |-----------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| In-game Tab scoreboard            | The panel opens but player rows are not drawn. Runtime observation shows the publishing function at `0x10092660` is called, both guards pass, the engine player list contains the correct node, and the Scaleform target is valid. Data reaches ActionScript, but ActionScript does not draw it. No ProudNet S2C path reaches this behavior. See `INMATCH_TAB_MAP.md` and `PEDIDO_TAB_IN_MATCH.md`            |
-| `Game::UserEquip` is dead storage | ZNetwork stores the snapshot at `HostData+0x388` and never reads it again. `GetServerHostData` is loaded by GameClient and GameServer but never called, and `HOST_GAME_USER_EQUIP` is never registered. The `u32` domain therefore cannot be confirmed as ItemIndex vs serial because there is no consumer. The server sends ItemIndex because it is the only identity with the same meaning on both machines |
-| Weapon change on respawn          | `0x909A` is received and persisted, but there is no path to notify the current client. The five `HOST_GAME_*` setters for weapon change, user equip, PvE rank, user item, and team change are loaded but never invoked to register handlers. The change takes effect in the next match                                                                                                                        |
+| In-game Tab scoreboard | Fixed missing team bytes in `0x921A NotifyInfo` (four u8 fields, previously only two). Team 0 was excluded by ActionScript. Regression tests pass; live verification pending. |
+| `Game::UserEquip` / host equipment | Consumed by GameServer `0x10163050` on respawn via getter `0x1023B680`, contrary to the earlier analysis. Weapon fields are ItemIndex values. See `../Analisyz/ajuda/INMATCH_TEAM_AND_WEAPON_FIX.md`. |
+| Weapon change on respawn | Fixed session reset in `0x909A`, added `0x925D` to update the host equipment table, and corrected the failure reply body. Handler and respawn regression tests pass; live verification pending. |
 | START button                      | It never emits `0x8CA7`, even with a full room and every player ready. The same behavior was observed in the earlier Node proof of concept. The condition that arms the button has not been found. Current workaround starts the match from the leader’s Ready state                                                                                                                                          |
 
 ### Wire layout known, meaning still unknown

@@ -111,6 +111,7 @@ func (l *Lobby) loadSeat(seat RoomUser) models.Player {
 }
 
 func (l *Lobby) matchSnapshot(room *Room, users []RoomUser, viewer uint32) []Message {
+	viewerSeat, _ := room.Member(viewer)
 	equipList := EncodeVarInt(len(users))
 	for index, user := range users {
 		equipList = append(equipList, l.matchEquip(uint8(index+1), user).row()...)
@@ -118,7 +119,7 @@ func (l *Lobby) matchSnapshot(room *Room, users []RoomUser, viewer uint32) []Mes
 
 	return []Message{
 		{ID: rmiNotifyMapInfo, Body: append(roomMapInfo(room), 0)},
-		{ID: rmiNotifyGameInfo, Body: []byte{seatIndex(users, viewer), seatIndex(users, room.LeaderID)}},
+		{ID: rmiNotifyGameInfo, Body: []byte{seatIndex(users, viewer), seatIndex(users, room.LeaderID), viewerSeat.Team, viewerSeat.Team}},
 		{ID: rmiNotifyInGameItem, Body: make([]byte, 3)},
 		{ID: rmiNotifyGameUserList, Body: gameUserList(users)},
 		{ID: rmiNotifyTeamEquipList, Body: EncodeVarInt(0)},

@@ -53,13 +53,29 @@ func (s *PlayerService) LoginBySteam(ctx context.Context, steamID string) (model
 		}
 		player.LastLogin = now
 		// For now we only purge expired items on login, but we could also do it on any inventory mutation idk.
-		if expired := player.PurgeExpired(now); len(expired) > 0 {
+		loadoutChanged := len(player.PurgeExpired(now)) > 0
+		if loadoutChanged {
 			if _, err := s.players.CommitInventory(ctx, steamID, player.Inventory, models.WalletNone, 0); err != nil {
 				return models.Player{}, err
 			}
 			if err := s.players.SaveAttachments(ctx, steamID, player.Attachments); err != nil {
 				return models.Player{}, err
 			}
+		}
+		equipped := make(map[uint8]bool)
+		for _, entry := range player.Loadout {
+			if item, ok := player.Item(entry.Serial); ok && item.ItemType == entry.Slot {
+				equipped[entry.Slot] = true
+			}
+		}
+		for _, item := range player.Inventory {
+			if (item.ItemType == models.SlotCharacterATC || item.ItemType == models.SlotCharacterTF) && !equipped[item.ItemType] {
+				player.Loadout = player.Loadout.Equip(item.ItemType, item.Serial)
+				equipped[item.ItemType] = true
+				loadoutChanged = true
+			}
+		}
+		if loadoutChanged {
 			if err := s.players.SaveLoadout(ctx, steamID, player.Loadout); err != nil {
 				return models.Player{}, err
 			}

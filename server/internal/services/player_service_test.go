@@ -75,6 +75,41 @@ func TestPlayerServiceLoginBySteam(t *testing.T) {
 	})
 }
 
+func TestLoginRestoresMissingCharacter(t *testing.T) {
+	for _, expired := range []bool{false, true} {
+		t.Run(map[bool]string{false: "missing slot", true: "expired character"}[expired], func(t *testing.T) {
+			ctx := context.Background()
+			repo := repositories.NewMemoryPlayerRepository()
+			service := newService(t, repo)
+			player := models.Player{
+				SteamID: "missing-character",
+				Inventory: []models.InventoryItem{
+					{Serial: 1, ItemIndex: 11100101, ItemType: models.SlotCharacterATC},
+					{Serial: 2, ItemIndex: 12100101, ItemType: models.SlotCharacterTF},
+					{Serial: 22, ItemIndex: 12400702, ItemType: models.SlotCharacterTF},
+					{Serial: 4, ItemIndex: 21605602, ItemType: models.SlotWeaponFirst},
+				},
+				Loadout: models.Loadout{{Slot: models.SlotCharacterTF, Serial: 22}, {Slot: models.SlotWeaponFirst, Serial: 4}},
+			}
+			if expired {
+				player.Inventory = append(player.Inventory, models.InventoryItem{Serial: 5, ItemIndex: 11100101, ItemType: models.SlotCharacterATC, ExpiresAt: time.Now().Add(-time.Hour)})
+				player.Loadout = player.Loadout.Equip(models.SlotCharacterATC, 5)
+			}
+			assert.NoError(t, repo.Create(ctx, player))
+			want := models.Loadout{{Slot: models.SlotCharacterTF, Serial: 22}, {Slot: models.SlotWeaponFirst, Serial: 4}, {Slot: models.SlotCharacterATC, Serial: 1}}
+			for login := 0; login < 2; login++ {
+				got, err := service.LoginBySteam(ctx, player.SteamID)
+				assert.NoError(t, err)
+				assert.Equal(t, want, got.Loadout, "restore missing faction, preserve chosen TF and weapon, no duplicates")
+				assert.Len(t, got.Inventory, 4, "only existing unexpired items are used")
+				stored, _, err := repo.Find(ctx, player.SteamID)
+				assert.NoError(t, err)
+				assert.Equal(t, want, stored.Loadout, "repair is persisted")
+			}
+		})
+	}
+}
+
 func TestPlayerServiceEquip(t *testing.T) {
 	t.Run("moves an owned item into its slot, replacing the previous one", func(t *testing.T) {
 		repo := repositories.NewMemoryPlayerRepository()
@@ -175,7 +210,7 @@ func TestPlayerServiceRental(t *testing.T) {
 		assert.NoError(t, err)
 		assert.Len(t, player.Inventory, 1, "expired rental gone")
 		assert.Empty(t, player.Attachments, "its attachment gone too")
-		assert.Empty(t, player.Loadout, "and its loadout entry")
+		assert.Equal(t, models.Loadout{{Slot: models.SlotCharacterATC, Serial: 1}}, player.Loadout, "expired slot removed and owned character restored")
 
 		stored, _, _ := repo.Find(context.Background(), "expired")
 		assert.Len(t, stored.Inventory, 1, "purge persisted")

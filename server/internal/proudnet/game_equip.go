@@ -112,16 +112,17 @@ func (l *Lobby) userEquip(session *Session, msg Message) error {
 	return session.SendPlain(Message{ID: rmiNotifyUserEquipInfo, Body: equip.row()})
 }
 
-// TODO not working
 // Changing weapons mid-match. Pressing the loadout key in game sends the whole
 // new set at once, and until this was handled the server kept serving the hangar
 // loadout while the player carried something else.
 //
-//	0x909A RequestChangeWeapon [u8][u16 x5] -> 0x925B [u8] / 0x925C (no body)
+//	0x909A RequestChangeWeapon [u8][u16 x5] -> 0x925B [u8] / 0x925C [u8 reason]
+//	0x925D NotifyUserWeaponInfo [u8][Game::Weapon][Game::Custom]
 const (
 	rmiRequestChangeWeapon    uint16 = 0x909A
 	rmiAnswerChangeWeaponOK   uint16 = 0x925B
 	rmiAnswerChangeWeaponFail uint16 = 0x925C
+	rmiNotifyUserWeaponInfo   uint16 = 0x925D
 
 	changeWeaponSlots = 5
 	changeWeaponBytes = 1 + changeWeaponSlots*2
@@ -134,7 +135,7 @@ func (l *Lobby) changeWeapon(session *Session, msg Message) error {
 	}
 	if len(msg.Body) < changeWeaponBytes {
 		l.logger.Info(fmt.Sprintf("lobby: malformed weapon change body=%x", msg.Body))
-		return session.SendPlain(Message{ID: rmiAnswerChangeWeaponFail})
+		return session.SendPlain(Message{ID: rmiAnswerChangeWeaponFail, Body: []byte{0}})
 	}
 
 	serials := make([]uint16, changeWeaponSlots)
@@ -147,10 +148,17 @@ func (l *Lobby) changeWeapon(session *Session, msg Message) error {
 	updated, err := l.players.ChangeWeapons(ctx, player.SteamID, serials)
 	if err != nil {
 		l.logger.Info(fmt.Sprintf("lobby: %s cannot carry %v: %v", player.Name, serials, err))
-		return session.SendPlain(Message{ID: rmiAnswerChangeWeaponFail})
+		return session.SendPlain(Message{ID: rmiAnswerChangeWeaponFail, Body: []byte{0}})
 	}
-	bindPlayer(session, updated)
+	updatePlayer(session, updated)
 
 	l.logger.Info(fmt.Sprintf("lobby: %s changed weapons to %v (body=%x)", player.Name, serials, msg.Body))
-	return session.SendPlain(Message{ID: rmiAnswerChangeWeaponOK, Body: []byte{msg.Body[0]}})
+	if err := session.SendPlain(Message{ID: rmiAnswerChangeWeaponOK, Body: []byte{msg.Body[0]}}); err != nil {
+		return err
+	}
+	if room := sessionRoom(session); room != nil {
+		equip := buildUserEquip(l.seatOf(session), updated)
+		l.tellMatch(room, Message{ID: rmiNotifyUserWeaponInfo, Body: equip.row()[:1+(5+6)*4]})
+	}
+	return nil
 }

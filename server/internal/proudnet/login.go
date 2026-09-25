@@ -6,9 +6,10 @@ import (
 )
 
 type response struct {
-	answer    uint16
-	body      []byte
-	followUps []followUp
+	answer      uint16
+	body        []byte
+	followUps   []followUp
+	destination byte // default menu-close destination; zero means no destination
 }
 
 type Handlers struct {
